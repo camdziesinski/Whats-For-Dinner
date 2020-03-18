@@ -88,7 +88,7 @@ namespace WhatsForDinner.Controllers
 
         public IActionResult Favorites()
         {
-            return View();
+            return View(_context.Restaurants.ToList());
         }
 
         #region PrivacyErrorActions

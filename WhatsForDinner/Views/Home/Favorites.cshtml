@@ -2,6 +2,31 @@
 @{
     ViewData["Title"] = "Favorites";
 }
-
+@model List<Restaurants>
 <h1>Favorites</h1>
 
+<table class="table-bordered">
+    <tr>
+        <th>Restaurants</th>
+        <th>Zip Code</th>
+        <th>User Rating</th>
+        <th>Notes</th>
+    </tr>
+    @foreach(var favorite in Model)
+    {
+        <tr>
+            <td>@favorite.Name</td>
+            <td>@favorite.ZipCode</td>
+            <td>@favorite.UserRating</td>
+            <td>@favorite.Notes</td>
+        </tr>
+    }
+
+
+
+
+
+
+
+
+</table>
