@@ -31,12 +31,41 @@ namespace WhatsForDinner.Controllers
         }
 
         [HttpGet]
-        public IActionResult JoinGroup()
+        public IActionResult InviteToGroup(Guid id)
         {
+            TempData["groupId"] = id;
             return View();
         }
 
         [HttpPost]
+        public async Task<IActionResult> InviteToGroup(string email)
+        {
+            GroupInvite newinvite = new GroupInvite();
+            List<AspNetUsers> tempUser = await _context.AspNetUsers.Where(x => x.Email == email).ToListAsync();
+            newinvite.UserId = tempUser[0].Id;
+            newinvite.GroupId = (Guid)TempData["groupId"];
+            await _context.GroupInvite.AddAsync(newinvite);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("ListGroups");
+        }
+
+        public IActionResult ListInvites()
+        {
+            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var query = from m in _context.GroupInvite
+                            from c in _context.Groups
+                            where m.GroupId == c.Id && m.UserId == id
+                            select new Groups()
+                            {
+                                Id = c.Id,
+                                Name = c.Name,
+                                Type = c.Type,
+                            };
+
+            return View(query.ToList());
+        }
+
+
         public async Task<IActionResult> JoinGroup(Guid GroupId)
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -102,14 +131,6 @@ namespace WhatsForDinner.Controllers
         public IActionResult ListGroups()
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //List<UserGroups> usersgroups = await _context.UserGroups.Where(x => x.UserId == id).ToListAsync();
-            //List<Groups> groups = new List<Groups>();
-            //foreach (UserGroups group in usersgroups)
-            //{
-            //    groups.Add((Groups)_context.Groups.Where(x => x.Id == group.GroupId));
-            //}
-
-            //return View(groups);
 
             var query = from m in _context.UserGroups
                         from c in _context.Groups

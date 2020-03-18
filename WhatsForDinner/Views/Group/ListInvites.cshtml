@@ -1,0 +1,19 @@
+﻿@model List<Groups>
+@{
+    ViewData["Title"] = "ListInvites";
+}
+
+<h1>Your Group Invites</h1>
+
+<table>
+    <tr>
+        <th>Group</th>
+    </tr>
+    <tr>
+        @foreach (Groups invite in Model)
+        {
+        <td>@invite.Name</td>
+        <td><a href="../Group/JoinGroup?id=@invite.Id" class="btn btn-outline-dark">Accept</a></td>
+        }
+    </tr>
+</table>
