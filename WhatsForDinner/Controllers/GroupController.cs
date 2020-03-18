@@ -66,12 +66,12 @@ namespace WhatsForDinner.Controllers
         }
 
 
-        public async Task<IActionResult> JoinGroup(Guid GroupId)
+        public async Task<IActionResult> JoinGroup(Guid id)
         {
-            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             UserGroups newUG = new UserGroups();
-            newUG.GroupId = GroupId;
-            newUG.UserId = id;
+            newUG.GroupId = id;
+            newUG.UserId = uid;
             await _context.UserGroups.AddAsync(newUG);
             _context.SaveChanges();
 
