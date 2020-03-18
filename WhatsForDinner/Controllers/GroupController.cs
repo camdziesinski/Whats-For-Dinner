@@ -1,0 +1,127 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using WhatsForDinner.Models;
+
+
+namespace WhatsForDinner.Controllers
+{
+    [Authorize]
+    public class GroupController : Controller
+    {
+        private readonly DinnerDbContext _context;
+
+        private readonly string APIKEYVARIABLE;
+        public GroupController(IConfiguration configuration, DinnerDbContext context)
+        {
+            _context = context;
+            APIKEYVARIABLE = configuration.GetSection("APIKeys")["YelpAPI"];
+        }
+
+
+        public IActionResult NewGroup()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult JoinGroup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> JoinGroup(Guid GroupId)
+        {
+            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            UserGroups newUG = new UserGroups();
+            newUG.GroupId = GroupId;
+            newUG.UserId = id;
+            await _context.UserGroups.AddAsync(newUG);
+            _context.SaveChanges();
+
+            return RedirectToAction("ListGroups");
+        }
+
+        public async Task<IActionResult> LeaveGroup(Guid id)
+        {
+            string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var tg = from m in _context.UserGroups
+                     where m.GroupId == id && m.UserId == uid
+                     select new UserGroups()
+                     {
+                         Id = m.Id,
+                         UserId = m.UserId,
+                         GroupId = m.GroupId,
+                     };
+            if (tg != null)
+            {
+                _context.Remove(tg);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ListGroups");
+        }
+        public async Task<IActionResult> CreateGroup(Groups newgroup)
+        {
+            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            Guid gid = Guid.NewGuid();
+            newgroup.Id = gid;
+
+            UserGroups newUG = new UserGroups();
+            newUG.GroupId = gid;
+            newUG.UserId = id;
+
+            await _context.UserGroups.AddAsync(newUG);
+            await _context.Groups.AddAsync(newgroup);
+
+            _context.SaveChanges();
+
+            return RedirectToAction("ListGroups");
+        }
+
+        //public async Task<IActionResult> ListGroups()
+        //{
+        //    string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    List<UserGroups> usersgroups = await _context.UserGroups.Where(x => x.UserId == id).ToListAsync();
+        //    List<Groups> groups = new List<Groups>();
+        //    foreach (UserGroups group in usersgroups)
+        //    {
+        //        groups.Add((Groups)_context.Groups.Where(x => x.Id == group.GroupId));
+        //    }
+
+        //    return View(groups);
+        //}
+
+        public IActionResult ListGroups()
+        {
+            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //List<UserGroups> usersgroups = await _context.UserGroups.Where(x => x.UserId == id).ToListAsync();
+            //List<Groups> groups = new List<Groups>();
+            //foreach (UserGroups group in usersgroups)
+            //{
+            //    groups.Add((Groups)_context.Groups.Where(x => x.Id == group.GroupId));
+            //}
+
+            //return View(groups);
+
+            var query = from m in _context.UserGroups
+                        from c in _context.Groups
+                        where m.GroupId == c.Id && m.UserId == id
+                        select new Groups()
+                        {
+                            Id = c.Id,
+                            Name = c.Name,
+                            Type = c.Type,
+                        };
+
+            return View(query.ToList());
+        }
+    }
+}

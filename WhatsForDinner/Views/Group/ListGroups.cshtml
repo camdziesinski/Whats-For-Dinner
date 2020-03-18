@@ -1,0 +1,24 @@
+﻿@model List<Groups>
+@{
+    ViewData["Title"] = "ListGroups";
+}
+
+<h1>List Groups</h1>
+
+<table class="table">
+    <tr>
+        <th>Group Name</th>
+        <th>Group Type</th>
+        <th>Group ID</th>
+    </tr>
+    @foreach (Groups g in Model)
+    {
+        <tr>
+            <td>@g.Name</td>
+            <td>@g.Type</td>
+            <td><a href="../Group/LeaveGroup?id=@g.Id" class="btn btn-outline-danger">Leave Group</a></td>
+        </tr>
+    }
+</table>
+
+<a href="../Group/JoinGroup" class="btn btn-dark">Join a Group</a>
