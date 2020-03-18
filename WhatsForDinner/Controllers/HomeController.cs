@@ -38,12 +38,13 @@ namespace WhatsForDinner.Controllers
         //Takes in the location and fills in the field to make API call
         public async Task<IActionResult> Discover(string location)
         {
-            ViewBag.location = location;
 
+            //sets default to detroit if user hasn't sumbitted a zip code
             if (location == null)
             {
                 location = "48226";
             }
+            ViewBag.location = location;
 
             //API call
             HttpClient client = new HttpClient();
@@ -64,24 +65,16 @@ namespace WhatsForDinner.Controllers
 
         // Taking in phone number to draw data for the exact restaurant. user rating, note, and liked is to fill constructor.
         //rest is filled from the data pulled from the API call.
-        public async Task<IActionResult> AddRestaurant(string phone, int userRating, string note, bool liked)
+        public IActionResult AddRestaurant(string location, string id, string name, string zip, int userRating, string note, bool liked)
         {
-            //API call
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://api.yelp.com/v3/businesses/");
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {YelpAPI}");
-            var response = await client.GetAsync($"phone?phone={phone}");
-            var result = await response.Content.ReadAsAsync<Business>();
-
-            //Makes the new restaurant to store into Db
-            Restaurants save = new Restaurants(User.FindFirst(ClaimTypes.NameIdentifier).Value, result.id, result.name, userRating, note, result.location.zip_code, liked);
+            Restaurants save = new Restaurants(User.FindFirst(ClaimTypes.NameIdentifier).Value, id, name, userRating, note, zip, liked);
 
             //Exclude a restaurant that already exist in restaurants table
             for (int i = 0; i < _context.Restaurants.ToList().Count; i++)
             {
-                if (_context.Restaurants.ToList()[i].PlaceId == result.id)
+                if (_context.Restaurants.ToList()[i].PlaceId == id)
                 {
-                    return RedirectToAction("Discover");
+                    return RedirectToAction("Discover", new { location });
 
                 }
             }
@@ -90,7 +83,12 @@ namespace WhatsForDinner.Controllers
             _context.Restaurants.Add(save);
             _context.SaveChanges();
 
-            return View("Discover");
+            return RedirectToAction("Discover", new { location });
+        }
+
+        public IActionResult Favorites()
+        {
+            return View();
         }
 
         #region PrivacyErrorActions

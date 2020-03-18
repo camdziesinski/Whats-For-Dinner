@@ -8,20 +8,20 @@
     ZIP CODE: <input type="text" name="location" pattern="[0-9]{5}" title="Five digit zip code" />
     <input type="Submit" name="Submit" value="Submmit" />
 </form>
-
-@if (ViewBag.location != null)
-{
-    <h1>@Model[0].name</h1>
-}
-
 <div align="center">
     @if (ViewBag.location != null)
     {
         <form action="../home/AddRestaurant" method="post">
-            <input type="Submit" name="liked" value="true" placeholder="LOVE" />
-            <input type="range" name="userRating" value="5" min="0" max="10" />
-            <input type="submit" name="liked" value="false" placeholder="HATE" />
-            <input type="hidden" name="phone" value="@Model[0].phone" />
+            <input type="hidden" name="liked" value="true" />
+            LOVE:<input type="radio" name="liked" value="true"/>
+            RATE: 0<input type="range" name="userRating" value="5" min="0" max="10" />10
+            HATE:<input type="radio" name="liked" value="false"/>
+                 <input type="hidden" name="id" value="@Model[0].id" />
+                 <input type="hidden" name="name" value="@Model[0].name" />
+                 <input type="hidden" name="zip" value="@Model[0].location.zip_code" />
+                 <input type="hidden" name="location" value="@Model[0].location.zip_code" />
+            <br />
+                 <input type="submit" name="Submit" value="Submit" />
             <h1>@Model[0].name</h1>
             <h6>@Model[0].location.address1, @Model[0].location.city, @Model[0].location.state @Model[0].location.zip_code</h6>
             <h6>@Model[0].display_phone</h6>
