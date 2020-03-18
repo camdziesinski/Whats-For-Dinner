@@ -91,6 +91,19 @@ namespace WhatsForDinner.Controllers
             return View(_context.Restaurants.ToList());
         }
 
+        // Removes restaurant from your list
+        public IActionResult RemoveRestaurant(int id)
+        {
+            Restaurants findFavorite = _context.Restaurants.Find(id);
+            if (findFavorite != null)
+            {
+                _context.Restaurants.Remove(findFavorite);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Favorites");
+        }
+
         #region PrivacyErrorActions
         public IActionResult Privacy()
         {
