@@ -26,6 +26,5 @@ namespace WhatsForDinner.Models
             ZipCode = zipCode;
             Liked = liked;
         }
-
     }
 }

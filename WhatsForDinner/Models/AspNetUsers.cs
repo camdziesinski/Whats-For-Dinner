@@ -11,6 +11,7 @@ namespace WhatsForDinner.Models
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
+            GroupInvite = new HashSet<GroupInvite>();
             Restaurants = new HashSet<Restaurants>();
             UserGroups = new HashSet<UserGroups>();
         }
@@ -35,6 +36,7 @@ namespace WhatsForDinner.Models
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual ICollection<GroupInvite> GroupInvite { get; set; }
         public virtual ICollection<Restaurants> Restaurants { get; set; }
         public virtual ICollection<UserGroups> UserGroups { get; set; }
     }

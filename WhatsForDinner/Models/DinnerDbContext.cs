@@ -24,6 +24,7 @@ namespace WhatsForDinner.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<GroupInvite> GroupInvite { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
         public virtual DbSet<Restaurants> Restaurants { get; set; }
         public virtual DbSet<UserGroups> UserGroups { get; set; }
@@ -32,6 +33,7 @@ namespace WhatsForDinner.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }
         }
@@ -136,9 +138,28 @@ namespace WhatsForDinner.Models
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
 
+            modelBuilder.Entity<GroupInvite>(entity =>
+            {
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.GroupInvite)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__GroupInvi__Group__6EF57B66");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.GroupInvite)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__GroupInvi__UserI__6E01572D");
+            });
+
             modelBuilder.Entity<Groups>(entity =>
             {
-                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -184,13 +205,13 @@ namespace WhatsForDinner.Models
                     .WithMany(p => p.UserGroups)
                     .HasForeignKey(d => d.GroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UserGroup__Group__628FA481");
+                    .HasConstraintName("FK__UserGroup__Group__6B24EA82");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserGroups)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UserGroup__UserI__619B8048");
+                    .HasConstraintName("FK__UserGroup__UserI__6A30C649");
             });
 
             OnModelCreatingPartial(modelBuilder);
