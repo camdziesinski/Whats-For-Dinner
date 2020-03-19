@@ -27,23 +27,33 @@ namespace WhatsForDinner.Controllers
         public async Task<IActionResult> GroupRestLists(Guid gid)
         {
             var groupsUsers = from m in _context.UserGroups
-                        from c in _context.AspNetUsers
-                        where m.GroupId == gid && m.UserId == c.Id
-                        select new AspNetUsers()
-                        {
-                            Id = c.Id,
-                            UserName = c.UserName
-                        };
+                              from c in _context.AspNetUsers
+                              where m.GroupId == gid && m.UserId == c.Id
+                              select new AspNetUsers()
+                              {
+                                  Id = c.Id,
+                                  UserName = c.UserName
+                              };
             var newGroupsUsers = await groupsUsers.ToListAsync();
             List<List<Restaurants>> groupRests = new List<List<Restaurants>>();
-            foreach(AspNetUsers member in newGroupsUsers)
+            foreach (AspNetUsers member in newGroupsUsers)
             {
-                var userRests = await _context.Restaurants.Where(x => x.UserId == member.Id).ToListAsync();
+                var userRests = await _context.Restaurants.Where(x => x.UserId == member.Id && x.Liked == true).ToListAsync();
                 groupRests.Add(userRests);
             }
 
-            return View(groupRests);
+            return RedirectToAction("WhatsForDinner", new { groupRests });
 
+        }
+
+        public async Task<IActionResult> WhatsForDinner(List<List<Restaurants>> matchUp)
+        {
+            foreach (List<Restaurants> usersList in Model)
+            {
+                
+                   
+
+            }
         }
     }
 }
