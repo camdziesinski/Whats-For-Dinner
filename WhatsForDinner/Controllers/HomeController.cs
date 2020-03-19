@@ -53,9 +53,10 @@ namespace WhatsForDinner.Controllers
             var response = await client.GetAsync($"search?location={location}");
             var result = await response.Content.ReadAsAsync<YelpData>();
 
+            string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //Takes in API list and user list, removes the same restaurants
             var list1 = result.businesses.ToList();
-            var list2 = _context.Restaurants.ToList();
+            var list2 = _context.Restaurants.Where(x => x.UserId == user).ToList();
             var list3 = list1.Where(p => !list2.Any(x => x.PlaceId == p.id)).ToList();
 
             return View(list3);
@@ -67,12 +68,14 @@ namespace WhatsForDinner.Controllers
         //rest is filled from the data pulled from the API call.
         public IActionResult AddRestaurant(string location, string id, string name, string zip, int userRating, string note, bool liked)
         {
-            Restaurants save = new Restaurants(User.FindFirst(ClaimTypes.NameIdentifier).Value, id, name, userRating, note, zip, liked);
+            string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            Restaurants save = new Restaurants(user, id, name, userRating, note, zip, liked);
 
             //Exclude a restaurant that already exist in restaurants table
             for (int i = 0; i < _context.Restaurants.ToList().Count; i++)
             {
-                if (_context.Restaurants.ToList()[i].PlaceId == id)
+                if (_context.Restaurants.Where(x => x.UserId == user).ToList()[i].PlaceId == id)
                 {
                     return RedirectToAction("Discover", new { location });
 
@@ -88,7 +91,9 @@ namespace WhatsForDinner.Controllers
 
         public IActionResult Favorites()
         {
-            return View(_context.Restaurants.ToList());
+            string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return View(_context.Restaurants.Where(x => x.UserId == user).ToList());
         }
 
         // Removes restaurant from your list
