@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "GroupList";
+}
+@model List<Restaurants>
+
+
+<table class="table-bordered">
+    <tr>
+        <th>Restaurants</th>
+        <th>Zip Code</th>
+    </tr>
+    @foreach (var favorite in Model)
+    {
+        <tr>
+            <td>@favorite.Name</td>
+            <td>@favorite.ZipCode</td>
+        </tr>
+    }
+
+
+
+
+
+
+
+
+</table>

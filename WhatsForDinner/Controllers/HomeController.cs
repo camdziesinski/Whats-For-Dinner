@@ -63,9 +63,9 @@ namespace WhatsForDinner.Controllers
 
 
 
-        public IActionResult GroupList(Guid groupId)
+        public IActionResult GroupList(Guid id)
         {
-            var users = _context.UserGroups.Where(x => x.GroupId == groupId).ToList();
+            var users = _context.UserGroups.Where(x => x.GroupId == id).ToList();
             var restaurants = new List<Restaurants>();
 
             for (int i = 0; i < users.Count - 1; i++)
@@ -78,7 +78,7 @@ namespace WhatsForDinner.Controllers
                 {
                     restaurants = _context.Restaurants.Where(x => x.UserId == user).ToList();
                 }
-                restaurants = restaurants.Where(p => !list2.Any(x => x.PlaceId == p.PlaceId)).ToList();
+                restaurants = restaurants.Where(p => list2.Any(x => x.PlaceId == p.PlaceId)).ToList();
 
             }
             
