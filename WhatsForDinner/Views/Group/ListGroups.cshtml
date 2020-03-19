@@ -12,12 +12,13 @@
     </tr>
     @foreach (Groups g in Model)
     {
-        <tr>
-            <td>@g.Name</td>
-            <td>@g.Type</td>
-            <td><a href="../Group/InviteToGroup?id=@g.Id" class="btn btn-outline-secondary">Invite Someone</a></td>
-            <td><a href="../Group/LeaveGroup?id=@g.Id" class="btn btn-outline-danger">Leave Group</a></td>
-        </tr>
+<tr>
+    <td>@g.Name</td>
+    <td>@g.Type</td>
+    <td><a href="../Match/GroupRestLists?id=@g.Id" class="btn btn-outline-primary">What's For Dinner</a></td>
+    <td><a href="../Group/InviteToGroup?id=@g.Id" class="btn btn-outline-secondary">Invite Someone</a></td>
+    <td><a href="../Group/LeaveGroup?id=@g.Id" class="btn btn-outline-danger">Leave Group</a></td>
+</tr>
     }
 </table>
 

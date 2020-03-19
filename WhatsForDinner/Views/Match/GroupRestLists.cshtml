@@ -1,0 +1,14 @@
+﻿@model List<List<Restaurants>>
+@{
+    ViewData["Title"] = "GroupRestLists";
+}
+
+<h1>GroupRestLists</h1>
+
+@foreach(List<Restaurants> usersList in Model)
+{
+    @foreach(Restaurants resto in usersList)
+    {
+        @resto.Name;<br/>
+    }
+}

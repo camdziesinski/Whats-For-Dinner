@@ -38,7 +38,7 @@ namespace WhatsForDinner.Controllers
         //Takes in the location and fills in the field to make API call
         public async Task<IActionResult> Discover(string location)
         {
-
+            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //sets default to detroit if user hasn't sumbitted a zip code
             if (location == null)
             {
@@ -55,7 +55,7 @@ namespace WhatsForDinner.Controllers
 
             //Takes in API list and user list, removes the same restaurants
             var list1 = result.businesses.ToList();
-            var list2 = _context.Restaurants.ToList();
+            var list2 = _context.Restaurants.Where(x => x.UserId == id).ToList();
             var list3 = list1.Where(p => !list2.Any(x => x.PlaceId == p.id)).ToList();
 
             return View(list3);
@@ -72,7 +72,7 @@ namespace WhatsForDinner.Controllers
             //Exclude a restaurant that already exist in restaurants table
             for (int i = 0; i < _context.Restaurants.ToList().Count; i++)
             {
-                if (_context.Restaurants.ToList()[i].PlaceId == id)
+                if (_context.Restaurants.ToList()[i].PlaceId == id && _context.Restaurants.ToList()[i].UserId == save.UserId)
                 {
                     return RedirectToAction("Discover", new { location });
 
