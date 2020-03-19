@@ -46,14 +46,14 @@ namespace WhatsForDinner.Controllers
 
         }
 
-        public async Task<IActionResult> WhatsForDinner(List<List<Restaurants>> matchUp)
-        {
-            foreach (List<Restaurants> usersList in Model)
-            {
+        //public async Task<IActionResult> WhatsForDinner(List<List<Restaurants>> matchUp)
+        //{
+        //    foreach (List<Restaurants> usersList in Model)
+        //    {
                 
                    
 
-            }
-        }
+        //    }
+        //}
     }
 }
