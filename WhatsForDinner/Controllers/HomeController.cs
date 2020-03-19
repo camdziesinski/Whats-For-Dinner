@@ -115,8 +115,9 @@ namespace WhatsForDinner.Controllers
         public IActionResult Favorites()
         {
             string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            return View(_context.Restaurants.Where(x => x.UserId == user).ToList());
+            var list = _context.Restaurants.Where(x => x.UserId == user).ToList();
+            var fav = _context.Restaurants.Where(x => x.Liked == true).ToList();
+            return View(fav);
         }
 
         // Removes restaurant from your list
