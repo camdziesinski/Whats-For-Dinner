@@ -116,7 +116,7 @@ namespace WhatsForDinner.Controllers
         {
             string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var list = _context.Restaurants.Where(x => x.UserId == user).ToList();
-            var fav = _context.Restaurants.Where(x => x.Liked == true).ToList();
+            var fav = list.Where(x => x.Liked == true).ToList();
             return View(fav);
         }
 
