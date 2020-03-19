@@ -75,7 +75,7 @@ namespace WhatsForDinner.Controllers
             //Exclude a restaurant that already exist in restaurants table
             for (int i = 0; i < _context.Restaurants.ToList().Count; i++)
             {
-                if (_context.Restaurants.Where(x => x.UserId == user).ToList()[i].PlaceId == id)
+                if (_context.Restaurants.ToList()[i].PlaceId == id && _context.Restaurants.ToList()[i].UserId == user)
                 {
                     return RedirectToAction("Discover", new { location });
 
