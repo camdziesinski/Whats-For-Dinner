@@ -68,6 +68,7 @@ namespace WhatsForDinner.Controllers
 
         public async Task<IActionResult> JoinGroup(Guid id)
         {
+            // using group id from invite, creates UserGroups entry, adding user to group
             string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             UserGroups newUG = new UserGroups();
             newUG.GroupId = id;
@@ -80,6 +81,7 @@ namespace WhatsForDinner.Controllers
 
         public async Task<IActionResult> DeleteInvite(Guid groupId)
         {
+            // deletes entry from GroupInvites table
             string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var tempInvite = await _context.GroupInvite.Where(x => x.GroupId == groupId && x.UserId == uid).ToListAsync();
             _context.Remove(tempInvite[0]);
@@ -90,7 +92,8 @@ namespace WhatsForDinner.Controllers
         public async Task<IActionResult> LeaveGroup(Guid id)
         {
             string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var tg = from m in _context.UserGroups
+            //get entry in UserGroups table by comparing to users id and passed goup id
+            var userGroup = from m in _context.UserGroups
                      where m.GroupId == id && m.UserId == uid
                      select new UserGroups()
                      {
@@ -98,7 +101,7 @@ namespace WhatsForDinner.Controllers
                          UserId = m.UserId,
                          GroupId = m.GroupId,
                      };
-            List<UserGroups> newlist = tg.ToList();
+            List<UserGroups> newlist = userGroup.ToList();
             if (newlist[0] != null)
             {
                 _context.Remove(newlist[0]);

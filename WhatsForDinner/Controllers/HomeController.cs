@@ -38,7 +38,6 @@ namespace WhatsForDinner.Controllers
         //Takes in the location and fills in the field to make API call
         public async Task<IActionResult> Discover(string location)
         {
-
             //sets default to detroit if user hasn't sumbitted a zip code
             if (location == null)
             {
