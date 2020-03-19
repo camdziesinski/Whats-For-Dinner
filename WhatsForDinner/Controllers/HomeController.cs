@@ -63,6 +63,30 @@ namespace WhatsForDinner.Controllers
 
 
 
+        public IActionResult GroupList(Guid groupId)
+        {
+            var users = _context.UserGroups.Where(x => x.GroupId == groupId).ToList();
+            var restaurants = new List<Restaurants>();
+
+            for (int i = 0; i < users.Count - 1; i++)
+            {
+                var user = users[i].UserId;
+                var user2 = users[i + 1].UserId;
+
+                var list2 = _context.Restaurants.Where(x => x.UserId == user2).ToList();
+                if (i == 0)
+                {
+                    restaurants = _context.Restaurants.Where(x => x.UserId == user).ToList();
+                }
+                restaurants = restaurants.Where(p => !list2.Any(x => x.PlaceId == p.PlaceId)).ToList();
+
+            }
+            
+            return View(restaurants);
+        }
+
+
+
         // Taking in phone number to draw data for the exact restaurant. user rating, note, and liked is to fill constructor.
         //rest is filled from the data pulled from the API call.
         public IActionResult AddRestaurant(string location, string id, string name, string zip, int userRating, string note, bool liked)
