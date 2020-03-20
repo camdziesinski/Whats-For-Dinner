@@ -12,10 +12,12 @@
     @if (ViewBag.location != null)
     {
         <form action="../home/AddRestaurant" method="post">
-            @*<input type="hidden" name="liked" value="true" />*@
-            LOVE:<input type="radio" name="liked" value="true"/>
-            RATE: 0<input type="range" name="userRating" value="5" min="0" max="10" />10
-            HATE:<input type="radio" name="liked" value="false"/>
+            <input type="radio" name="userRating" value="0" />0 Star
+            <input type="radio" name="userRating" value="1" />1 Star
+            <input type="radio" name="userRating" value="2" />2 Star
+            <input type="radio" name="userRating" value="3" required/>3 Star
+            <input type="radio" name="userRating" value="4" />4 Star
+            <input type="radio" name="userRating" value="5" />5 Star
                  <input type="hidden" name="id" value="@Model[0].id" />
                  <input type="hidden" name="name" value="@Model[0].name" />
                  <input type="hidden" name="zip" value="@Model[0].location.zip_code" />

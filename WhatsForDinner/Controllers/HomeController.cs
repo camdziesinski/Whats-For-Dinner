@@ -44,21 +44,27 @@ namespace WhatsForDinner.Controllers
                 location = "48226";
             }
             ViewBag.location = location;
+            try
+            {
+                //API call
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri("https://api.yelp.com/v3/businesses/");
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {YelpAPI}");
+                var response = await client.GetAsync($"search?location={location}");
+                var result = await response.Content.ReadAsAsync<YelpData>();
 
-            //API call
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://api.yelp.com/v3/businesses/");
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {YelpAPI}");
-            var response = await client.GetAsync($"search?location={location}");
-            var result = await response.Content.ReadAsAsync<YelpData>();
+                string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                //Takes in API list and user list, removes the same restaurants
+                var list1 = result.businesses.ToList();
+                var list2 = _context.Restaurants.Where(x => x.UserId == user).ToList();
+                var list3 = list1.Where(p => !list2.Any(x => x.PlaceId == p.id)).ToList();
 
-            string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //Takes in API list and user list, removes the same restaurants
-            var list1 = result.businesses.ToList();
-            var list2 = _context.Restaurants.Where(x => x.UserId == user).ToList();
-            var list3 = list1.Where(p => !list2.Any(x => x.PlaceId == p.id)).ToList();
-
-            return View(list3);
+                return View(list3);
+            }
+            catch
+            {
+                return RedirectToAction("Discover");
+            }
         }
 
 
@@ -89,10 +95,18 @@ namespace WhatsForDinner.Controllers
 
         // Taking in phone number to draw data for the exact restaurant. user rating, note, and liked is to fill constructor.
         //rest is filled from the data pulled from the API call.
-        public IActionResult AddRestaurant(string location, string id, string name, string zip, int userRating, string note, bool liked)
+        public IActionResult AddRestaurant(string location, string id, string name, string zip, int userRating, string note)
         {
             string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            bool liked;
+            if(userRating >= 3)
+            {
+                liked = true;
+            }
+            else
+            {
+                liked = false;
+            }
             Restaurants save = new Restaurants(user, id, name, userRating, note, zip, liked);
 
             //Exclude a restaurant that already exist in restaurants table
