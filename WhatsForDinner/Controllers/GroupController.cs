@@ -40,13 +40,22 @@ namespace WhatsForDinner.Controllers
         [HttpPost]
         public async Task<IActionResult> InviteToGroup(string email)
         {
-            GroupInvite newinvite = new GroupInvite();
-            List<AspNetUsers> tempUser = await _context.AspNetUsers.Where(x => x.Email == email).ToListAsync();
-            newinvite.UserId = tempUser[0].Id;
-            newinvite.GroupId = (Guid)TempData["groupId"];
-            await _context.GroupInvite.AddAsync(newinvite);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("ListGroups");
+            var validemail = _context.AspNetUsers.Find(email);
+            if (validemail != null)
+            {
+                GroupInvite newinvite = new GroupInvite();
+                var tempUser = await _context.AspNetUsers.Where(x => x.Email == email).FirstAsync();
+                newinvite.UserId = tempUser.Id;
+                newinvite.GroupId = (Guid)TempData["groupId"];
+                await _context.GroupInvite.AddAsync(newinvite);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ListGroups");
+            }
+            else
+            {
+                TempData["exists"] = true;
+                return RedirectToAction("InviteToGroup", TempData["groupId"]);
+            }
         }
 
         public IActionResult ListInvites()

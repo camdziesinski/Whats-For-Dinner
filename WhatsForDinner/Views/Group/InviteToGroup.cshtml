@@ -5,7 +5,14 @@
 
 <h1>InviteToGroup</h1>
 <p>Input the email address of the user you'd like to invite to your group</p>
+@if (TempData["exists"] is true)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Oops!</strong> This User doesn't exist. Please double check your input.
+    </div>
+
+}
 <form action="../Group/InviteToGroup" method="post">
     <input type="text" name="Email" placeholder="sample@server.com" />
-    <input type="submit"  value="Send Invite" />
+    <input type="submit" value="Send Invite" class="btn btn-outline-primary" />
 </form>
