@@ -147,6 +147,27 @@ namespace WhatsForDinner.Controllers
             return RedirectToAction("Favorites");
         }
 
+        [HttpGet]
+        public IActionResult UpdateSuper(int Id)
+        {
+            Restaurants found = _context.Restaurants.Find(Id);
+            return View(found);
+        }
+
+        [HttpPost]
+        public IActionResult EditRestaurant(Restaurants updateRestaurant)
+        {
+            Restaurants dbRestaurant = _context.Restaurants.Find(updateRestaurant.Id);
+
+            dbRestaurant.UserRating = updateRestaurant.UserRating;
+
+            _context.Entry(dbRestaurant).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Update(dbRestaurant);
+            _context.SaveChanges();
+        
+            return RedirectToAction("Favorites");
+        }
+
         #region PrivacyErrorActions
         public IActionResult Privacy()
         {

@@ -17,7 +17,12 @@
         <tr>
             <td>@favorite.Name</td>
             <td>@favorite.ZipCode</td>
-            <td>@favorite.UserRating</td>
+            <td><form action="../home/EditRestaurant" method="post">
+    <input type="hidden" name="Id" value="@favorite.Id" />
+    <input type="number" name="userRating" value="@favorite.UserRating" min="0" max="5" />
+    <input type="Submit" name="Submit" value="Update" />
+</form>
+</td>
             <td>@favorite.Notes</td>
             <td><a class="btn" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a></td>
         </tr>
