@@ -40,17 +40,17 @@
         </tr>
         @foreach (var favorite in Model)
         {
-    <tr>
-        <td>@favorite.Name<br />zip: @favorite.ZipCode</td>
-        <td>@favorite.UserRating</td>
-        <td>
-            <form action="../home/EditRestaurant" method="post">
-                <input type="hidden" name="restaurantObject" value="@Model" />
-                <input type="Submit" name="Submit" value="Update" />
-            </form>
-        </td>
-        <td><a class="btn" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a></td>
-    </tr>
+            <tr>
+                <td>@favorite.Name<br />zip: @favorite.ZipCode</td>
+                <td>@favorite.UserRating</td>
+                <td>
+                    <form action="../home/EditRestaurant" method="post">
+                        <input type="hidden" name="restaurantObject" value="@Model" />
+                        <input type="Submit" name="Submit" value="Update" />
+                    </form>
+                </td>
+                <td><a class="btn" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a></td>
+            </tr>
         }
     </table>
 
@@ -58,7 +58,6 @@
 <style type="text/css">
     .mobileHide { /*display: none;*/
     }
-
     /* Smartphone Portrait and Landscape */
     @@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
         .mobileHide {
@@ -69,7 +68,6 @@
     .mobileShow {
         display: none;
     }
-
     /* Smartphone Portrait and Landscape */
     @@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
         .mobileShow {

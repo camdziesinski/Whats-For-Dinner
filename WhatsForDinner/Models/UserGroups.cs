@@ -11,5 +11,8 @@ namespace WhatsForDinner.Models
 
         public virtual Groups Group { get; set; }
         public virtual AspNetUsers User { get; set; }
+
+        public UserGroups() { }
+
     }
 }

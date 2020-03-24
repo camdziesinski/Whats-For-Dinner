@@ -40,36 +40,49 @@ namespace WhatsForDinner.Controllers
         [HttpPost]
         public async Task<IActionResult> InviteToGroup(string email)
         {
-            var validemail = _context.AspNetUsers.Find(email);
-            if (validemail != null)
+            var validemail = validUser(email);
+
+
+            if (validemail == true)
             {
-                GroupInvite newinvite = new GroupInvite();
-                var tempUser = await _context.AspNetUsers.Where(x => x.Email == email).FirstAsync();
-                newinvite.UserId = tempUser.Id;
-                newinvite.GroupId = (Guid)TempData["groupId"];
-                await _context.GroupInvite.AddAsync(newinvite);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("ListGroups");
+                AspNetUsers found = _context.AspNetUsers.Where(x => x.Email == email).First();
+                bool member = inGroup(found.Id, (Guid)TempData["groupId"]);
+                if(member == false)
+                {
+                    GroupInvite newinvite = new GroupInvite();
+                    var tempUser = await _context.AspNetUsers.Where(x => x.Email == email).FirstAsync();
+                    newinvite.UserId = tempUser.Id;
+                    newinvite.GroupId = (Guid)TempData["groupId"];
+                    await _context.GroupInvite.AddAsync(newinvite);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("ListGroups");
+                }
+                else
+                {
+                    TempData["inGroup"] = true;
+                    return RedirectToAction("InviteToGroup", TempData["groupId"]);
+                }
             }
             else
             {
                 TempData["exists"] = true;
                 return RedirectToAction("InviteToGroup", TempData["groupId"]);
             }
+
         }
 
         public IActionResult ListInvites()
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var query = from m in _context.GroupInvite
-                            from c in _context.Groups
-                            where m.GroupId == c.Id && m.UserId == id
-                            select new Groups()
-                            {
-                                Id = c.Id,
-                                Name = c.Name,
-                                Type = c.Type,
-                            };
+            var query = from m in _context.GroupInvite
+                        from c in _context.Groups
+                        where m.GroupId == c.Id && m.UserId == id
+                        select new Groups()
+                        {
+                            Id = c.Id,
+                            Name = c.Name,
+                            Type = c.Type,
+                        };
 
             return View(query.ToList());
         }
@@ -103,13 +116,13 @@ namespace WhatsForDinner.Controllers
             string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //get entry in UserGroups table by comparing to users id and passed goup id
             var userGroup = from m in _context.UserGroups
-                     where m.GroupId == id && m.UserId == uid
-                     select new UserGroups()
-                     {
-                         Id = m.Id,
-                         UserId = m.UserId,
-                         GroupId = m.GroupId,
-                     };
+                            where m.GroupId == id && m.UserId == uid
+                            select new UserGroups()
+                            {
+                                Id = m.Id,
+                                UserId = m.UserId,
+                                GroupId = m.GroupId,
+                            };
             List<UserGroups> newlist = userGroup.ToList();
             if (newlist[0] != null)
             {
@@ -165,6 +178,32 @@ namespace WhatsForDinner.Controllers
                         };
 
             return View(query.ToList());
+        }
+
+        public bool inGroup(string uId, Guid gId)
+        {
+            var member = _context.UserGroups.Where(x => x.GroupId == gId).Where(y => y.UserId == uId).ToList();
+            if(member.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool validUser(string email)
+        {
+            var usr = _context.AspNetUsers.Where(x => x.Email == email).ToList();
+            if(usr.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

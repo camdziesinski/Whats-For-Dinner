@@ -147,12 +147,6 @@ namespace WhatsForDinner.Controllers
             return RedirectToAction("Favorites");
         }
 
-        [HttpGet]
-        public IActionResult UpdateSuper(int Id)
-        {
-            Restaurants found = _context.Restaurants.Find(Id);
-            return View(found);
-        }
 
         [HttpPost]
         public IActionResult EditRestaurant(Restaurants updateRestaurant)

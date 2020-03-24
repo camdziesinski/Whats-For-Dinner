@@ -16,3 +16,10 @@
     <input type="text" name="Email" placeholder="sample@server.com" />
     <input type="submit" value="Send Invite" class="btn btn-outline-primary" />
 </form>
+@if (TempData["inGroup"] is true)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Oops!</strong> This User is already in the group!
+    </div>
+
+}
