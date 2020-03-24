@@ -5,7 +5,7 @@
 
 <h1>List Groups</h1>
 
-<table class="table">
+<table class="table table-bordered">
     <tr>
         <th>Group Name</th>
         <th>Group Type</th>
@@ -15,10 +15,10 @@
 <tr>
     <td>@g.Name</td>
     <td>@g.Type</td>
-    <td><a href="../Home/GroupList?id=@g.Id" class="btn btn-outline-primary">What's For Dinner</a></td>
+    <td><a href="../Home/GroupList?id=@g.Id" class="btn btn-outline-primary btn-group-sm">What's For Dinner</a></td>
     @*<td><a href="../Match/GroupRestLists?gid=@g.Id" class="btn btn-outline-primary">What's For Dinner</a></td>*@
-    <td><a href="../Group/InviteToGroup?id=@g.Id" class="btn btn-outline-secondary">Invite Someone</a></td>
-    <td><a href="../Group/LeaveGroup?id=@g.Id" class="btn btn-outline-danger">Leave Group</a></td>
+    <td><a href="../Group/InviteToGroup?id=@g.Id" class="btn btn-outline-secondary btn-group-sm">Invite</a></td>
+    <td><a href="../Group/LeaveGroup?id=@g.Id" class="btn btn-outline-danger btn-group-sm">Leave</a></td>
 </tr>
     }
 </table>
