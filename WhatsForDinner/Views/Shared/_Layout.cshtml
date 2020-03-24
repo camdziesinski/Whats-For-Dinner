@@ -8,15 +8,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WhatsForDinner</title>
+    <title>@ViewData["Title"] - Whats For Dinner</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WhatsForDinner</a>
+                <a class="navbar-brand float-left" asp-area="" asp-controller="Home" asp-action="Index"><img width="45" style="padding:0px 8px" src="https://i.ibb.co/6JjJRLg/fork.png" />Whats For Dinner</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,16 +27,16 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Discover">Discover</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Discover">Discover</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Favorites">Favorites</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Favorites">Favorites</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="ListGroups">Group Up</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Group" asp-action="ListGroups">Group Up</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="ListInvites">Group Invites</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Group" asp-action="ListInvites">Group Invites</a>
                             </li>
                         }
                     </ul>
@@ -44,6 +44,19 @@
             </div>
         </nav>
     </header>
+    <style>
+        nav{
+            background-color:maroon;
+            font-family:Broadway
+        }
+        body {
+            background-image: url(https://i.ibb.co/2kMhGPv/forkbg.png);
+            background-repeat: round
+        }
+        table{
+            background-color:white
+        }
+    </style>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

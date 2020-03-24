@@ -32,7 +32,8 @@ namespace WhatsForDinner.Controllers
 
         public IActionResult GroupMembers(Guid id)
         {
-            TempData["group"] = _context.Groups.Find(id);
+            TempData["group"] = _context.Groups.Find(id).Name;
+            
             var members = from u in _context.AspNetUsers
                           from g in _context.UserGroups
                           where g.GroupId == id && g.UserId == u.Id
