@@ -10,48 +10,44 @@
         <tr>
             <th>Restaurants</th>
             <th>Zip Code</th>
-            <th>Rating</th>
+            <th>Your Rating</th>
             <th>Notes</th>
         </tr>
         @foreach (var favorite in Model)
         {
-            <tr>
-                <td>@favorite.Name</td>
-                <td>@favorite.ZipCode</td>
-                <td>
-                    <form action="../home/EditRestaurant" method="post">
-                        <input type="hidden" name="Id" value="@favorite.Id" />
-                        <input type="number" name="userRating" value="@favorite.UserRating" min="0" max="5" />
-                        <input type="Submit" name="Submit" value="Update" />
-                    </form>
-                </td>
-                <td><div style="height:90px;width:350px;overflow:scroll;">@favorite.Notes</div></td>
-                <td><a class="btn" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a></td>
-            </tr>
+        <tr>
+            <td>@favorite.Name</td>
+            <td>@favorite.ZipCode</td>
+            <td>
+                <form action="../home/EditRestaurant" method="post">
+                    <input type="hidden" name="Id" value="@favorite.Id" />
+                    <input type="number" name="userRating" value="@favorite.UserRating" min="0" max="5" />
+                    <input type="Submit" name="Submit" value="Update" />
+                </form>
+            </td>
+            <td><div style="height:90px;width:350px;overflow:scroll;">@favorite.Notes</div></td>
+            <td><a class="btn" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a></td>
+        </tr>
         }
 
     </table>
 </div>
 <div class="mobileShow">
-    <table class="table-bordered">
-        <tr>
-            <th>Restaurants</th>
-            <th>Rating</th>
-        </tr>
-        @foreach (var favorite in Model)
-        {
-            <tr>
-                <td>@favorite.Name<br />zip: @favorite.ZipCode</td>
-                <td>@favorite.UserRating</td>
-                <td>
-                    <form action="../home/EditRestaurant" method="post">
-                        <input type="hidden" name="restaurantObject" value="@Model" />
-                        <input type="Submit" name="Submit" value="Update" />
-                    </form>
-                </td>
-                <td><a class="btn" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a></td>
+    <table role="table">
+        <thead role="rowgroup">
+
+        </thead>
+        <tbody role="rowgroup">
+            @foreach (var favorite in Model)
+            {
+            <tr role="row">
+                <td role="cell">@favorite.Name</td>
+                <td role="cell">@favorite.ZipCode</td>
+                <td role="cell">@favorite.UserRating</td>
+                <td role="cell">@favorite.Notes</td>
             </tr>
-        }
+            }
+        </tbody>
     </table>
 
 </div>
@@ -66,12 +62,62 @@
     }
 
     .mobileShow {
-        display: none;
+        display: block;
     }
     /* Smartphone Portrait and Landscape */
     @@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
         .mobileShow {
-            display: inline;
+            width: 100%;
         }
     }
+
+    	@@media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+    tr {
+      margin: 0 0 1rem 0;
+    }
+      
+    tr:nth-child(odd) {
+      background: #ccc;
+    }
+    
+		td {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee;
+			position: relative;
+			padding-left: 50%;
+		}
+
+		td:before {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 0;
+			left: 1%
+            ;
+			padding-right: 1%;
+			white-space: nowrap;
+		}
+        td:nth-of-type(1):before { content: "Restaurant"; }
+		td:nth-of-type(2):before { content: "Zip Code"; }
+		td:nth-of-type(3):before { content: "Your Rating"; }
+		td:nth-of-type(4):before { content: "Note"; }
+	}
+
 </style>

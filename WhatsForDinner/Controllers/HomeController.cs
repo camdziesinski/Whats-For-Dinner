@@ -107,6 +107,10 @@ namespace WhatsForDinner.Controllers
             {
                 liked = false;
             }
+            if(note == null)
+            {
+                note = "N/A";
+            }
             Restaurants save = new Restaurants(user, id, name, userRating, note, zip, liked);
 
             //Exclude a restaurant that already exist in restaurants table
