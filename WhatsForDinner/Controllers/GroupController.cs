@@ -30,6 +30,22 @@ namespace WhatsForDinner.Controllers
             return View();
         }
 
+        public IActionResult GroupMembers(Guid id)
+        {
+            TempData["group"] = _context.Groups.Find(id);
+            var members = from u in _context.AspNetUsers
+                          from g in _context.UserGroups
+                          where g.GroupId == id && g.UserId == u.Id
+                          select new AspNetUsers()
+                          {
+                              Id = u.Id,
+                              UserName = u.UserName,
+                              Email = u.Email
+                          };
+
+            return View(members.ToList());
+        }
+
         [HttpGet]
         public IActionResult InviteToGroup(Guid id)
         {
@@ -111,7 +127,7 @@ namespace WhatsForDinner.Controllers
             return RedirectToAction("ListGroups");
         }
 
-        public async Task<IActionResult> LeaveGroup(Guid id)
+        public IActionResult LeaveGroup(Guid id)
         {
             string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //get entry in UserGroups table by comparing to users id and passed goup id

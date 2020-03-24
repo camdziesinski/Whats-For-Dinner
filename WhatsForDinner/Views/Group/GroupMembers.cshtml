@@ -1,0 +1,19 @@
+﻿@model List<AspNetUsers>
+@{
+    ViewData["Title"] = "GroupMembers";
+}
+
+<h1>@TempData["group"].ToString()</h1>
+<h3>Group Members</h3>
+
+<table class="table-bordered">
+    <tr>
+        <th>User Name</th>
+    </tr>
+    @foreach(AspNetUsers user in Model)
+    {
+        <tr>
+            <td>@user.UserName</td>
+        </tr>
+    }
+</table>
