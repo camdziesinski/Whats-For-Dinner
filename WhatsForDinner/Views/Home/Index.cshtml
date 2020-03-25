@@ -1,18 +1,27 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
-@*<style>
-    body {
-        background-image: url(https://i.ibb.co/2kMhGPv/forkbg.png);
-        background-repeat: round
-    }
-</style >*@
+
     <div class="text-center" >
     <h1 class="display-4" > Welcome</h1 >
+        @if (ViewBag.email == false)
+        {
+    <form action="../Home/UpdateUserName" method="post">
+        What's your name? <input type="text" name="name"/>'
+                          <input type="submit" name="submit" value="submit" />
+    </form>
+        }
     <p >
-    Thank you for using our application. Jump over to Discover and find some restuarants in the
-    area. In a gathering, and everyone amongst you have difficulties find a place you would all
+    Thank you for using our application. Jump over to the Discover tab and find some restaurants in the
+    area. Ever been in a gathering where everyone amongst you has difficulties finding a place you would all
     enjoying eating at? Let us help. Go over to the Group tab, and we will find all the restaurants
     you have in common.
     </p >
     </div >
+<style>
+    body{
+        font-family: serif;
+        font-style: italic;
+    }
+</style>

@@ -32,7 +32,33 @@ namespace WhatsForDinner.Controllers
 
         public IActionResult Index()
         {
+            string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userdata = _context.AspNetUsers.Where(x => x.Id == user).ToList();
+            ViewBag.email = userdata[0].EmailConfirmed;
             return View();
+        }
+        public IActionResult UpdateUserName(string name)
+        {
+            //userdata[0].UserName = name;
+            //userdata[0].EmailConfirmed = true;
+            //var save = userdata;
+            //_context.AspNetUsers.Add(save);
+            //_context.SaveChanges();
+            if (name != null)
+            {
+                string user = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userData = _context.AspNetUsers.Where(x => x.Id == user).ToList();
+                AspNetUsers userObject = userData[0];
+
+                userObject.EmailConfirmed = true;
+                userObject.UserName = name;
+
+                _context.Entry(userObject).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Update(userObject);
+                _context.SaveChanges();
+            }
+
+            return View("Index");
         }
 
         //Takes in the location and fills in the field to make API call
