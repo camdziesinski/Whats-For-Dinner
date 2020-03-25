@@ -8,7 +8,7 @@
         @if (ViewBag.email == false)
         {
     <form action="../Home/UpdateUserName" method="post">
-        What's your name? <input type="text" name="name"/>'
+        What's your name? <input type="text" name="name" maxlength="20"/>'
                           <input type="submit" name="submit" value="submit" />
     </form>
         }
