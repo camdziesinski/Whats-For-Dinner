@@ -113,7 +113,7 @@ namespace WhatsForDinner.Controllers
             newUG.GroupId = id;
             newUG.UserId = uid;
             await _context.UserGroups.AddAsync(newUG);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("DeleteInvite", new { newUG.GroupId });
         }
@@ -124,11 +124,11 @@ namespace WhatsForDinner.Controllers
             string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var tempInvite = await _context.GroupInvite.Where(x => x.GroupId == groupId && x.UserId == uid).ToListAsync();
             _context.Remove(tempInvite[0]);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("ListGroups");
         }
 
-        public IActionResult LeaveGroup(Guid id)
+        public async Task<IActionResult> LeaveGroup(Guid id)
         {
             string uid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //get entry in UserGroups table by comparing to users id and passed goup id
@@ -144,7 +144,7 @@ namespace WhatsForDinner.Controllers
             if (newlist[0] != null)
             {
                 _context.Remove(newlist[0]);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction("ListGroups");
         }
@@ -162,7 +162,7 @@ namespace WhatsForDinner.Controllers
             await _context.UserGroups.AddAsync(newUG);
             await _context.Groups.AddAsync(newgroup);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("ListGroups");
         }

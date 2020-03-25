@@ -8,11 +8,13 @@
 <table class="table-bordered">
     <tr>
         <th>Group Members</th>
+        <th>Email</th>
     </tr>
     @foreach(AspNetUsers user in Model)
     {
         <tr>
             <td>@user.UserName</td>
+            <td>@user.Email</td>
         </tr>
     }
 </table>
