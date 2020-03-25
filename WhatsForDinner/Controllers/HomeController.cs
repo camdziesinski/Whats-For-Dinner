@@ -177,18 +177,44 @@ namespace WhatsForDinner.Controllers
             return RedirectToAction("Favorites");
         }
 
+        [HttpGet]
+        public IActionResult EditRestaurant(int id)
+        {
+            Restaurants found = _context.Restaurants.Find(id);
+            if (found != null)
+            {
+                return View(found);
+            }
+            return RedirectToAction("Favorites");
+        }
 
         [HttpPost]
-        public IActionResult EditRestaurant(Restaurants updateRestaurant)
+        public IActionResult EditRestaurant(int id, int userRating, string notes)
         {
-            Restaurants dbRestaurant = _context.Restaurants.Find(updateRestaurant.Id);
+            Restaurants updated = _context.Restaurants.Find(id);
+            
+            updated.UserRating = userRating;
+            if(userRating >= 3)
+            {
+                updated.Liked = true;
+            }
+            else
+            {
+                updated.Liked = false;
+            }
+            if(notes == null)
+            {
+                updated.Notes = "N/A";
+            }
+            else
+            {
+                updated.Notes = notes;
+            }
 
-            dbRestaurant.UserRating = updateRestaurant.UserRating;
+                _context.Entry(updated).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Update(updated);
+                _context.SaveChanges();
 
-            _context.Entry(dbRestaurant).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.Update(dbRestaurant);
-            _context.SaveChanges();
-        
             return RedirectToAction("Favorites");
         }
 
