@@ -4,35 +4,33 @@
 }
 @model List<Business>
 
-<form action="../Home/Discover" method="post">
-    ZIP CODE: <input type="text" name="location" pattern="[0-9]{5}" title="Five digit zip code" />
-    <input type="Submit" name="Submit" value="Search" />
+<form style="max-width: 350px; min-width: 350px;" class="input-group rounded" action="../Home/Discover" method="post">
+    <span class="input-group-text input-group-prepend" id="inputGroup-sizing-lg">Zip Code</span>
+    <input class="form-control" type="text" name="location" pattern="[0-9]{5}" title="Five digit zip code" />
+    <input class="input-group-append btn btn-success" type="Submit" name="Submit" value="Search" />
 </form>
+
 <div align="center">
     @if (ViewBag.location != null)
     {
-        <form action="../home/AddRestaurant" method="post">
-            <input type="radio" name="userRating" value="0" />0 Star
-            <input type="radio" name="userRating" value="1" />1 Star
-            <input type="radio" name="userRating" value="2" />2 Star
-            <input type="radio" name="userRating" value="3" required/>3 Star
-            <input type="radio" name="userRating" value="4" />4 Star
-            <input type="radio" name="userRating" value="5" />5 Star
-                 <input type="hidden" name="id" value="@Model[0].id" />
-                 <input type="hidden" name="name" value="@Model[0].name" />
-                 <input type="hidden" name="zip" value="@Model[0].location.zip_code" />
-                 <input type="hidden" name="location" value="@Model[0].location.zip_code" />
-            <br />
-                 <input type="submit" name="Submit" value="Submit" />
-            <h1>@Model[0].name</h1>
-            <h6>@Model[0].location.address1, @Model[0].location.city, @Model[0].location.state @Model[0].location.zip_code</h6>
-            <h6>@Model[0].display_phone</h6>
-            <p>Cost: @Model[0].price Rating: @Model[0].rating</p>
-            <div><img src="@Model[0].image_url" width="250" height="250" /></div>
-            <br />
-            <h6>Leave a note</h6>
-            <textarea rows="4" cols="40" name="note" maxlength="350"></textarea>
-        </form>
+    <form action="../home/AddRestaurant" method="post">
+        <input type="range" name="userRating" class="custom-range" id="ageInputId" min="0" max="5" step="1" style="max-width: 300px; min-width: 300px;" oninput="ageOutputId.value = ageInputId.value">
+         <h6>Your rating: <output name="ageOutputName" id="ageOutputId">3</output></h6>
+        <input type="hidden" name="id" value="@Model[0].id" />
+        <input type="hidden" name="name" value="@Model[0].name" />
+        <input type="hidden" name="zip" value="@Model[0].location.zip_code" />
+        <input type="hidden" name="location" value="@Model[0].location.zip_code" />
+        <br />
+        <input type="submit" name="Submit" value="Submit" class="btn btn-outline-primary btn-group-sm" />
+        <h1>@Model[0].name</h1>
+        <h6>@Model[0].location.address1, @Model[0].location.city, @Model[0].location.state @Model[0].location.zip_code</h6>
+        <h6>@Model[0].display_phone</h6>
+        <p>Cost: @Model[0].price Rating: @Model[0].rating</p>
+        <div><img src="@Model[0].image_url" width="250" height="250" /></div>
+        <br />
+        <h6>Leave a note</h6>
+        <textarea rows="4" cols="40" name="note" maxlength="350"></textarea>
+    </form>
 
     }
 </div>

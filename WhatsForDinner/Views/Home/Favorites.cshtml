@@ -11,13 +11,17 @@
 else
 {
     <div id="desktop">
-        <table class="table-bordered">
-            <tr>
-                <th>Restaurants</th>
-                <th>Zip Code</th>
-                <th>Your Rating</th>
-                <th>Notes</th>
-            </tr>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Restaurants</th>
+                    <th>Zip Code</th>
+                    <th>Your Rating</th>
+                    <th>Notes</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
             @foreach (var favorite in Model)
             {
                 <tr>
@@ -26,7 +30,7 @@ else
                     <td>@favorite.UserRating</td>
                     <td style="max-width: 400px; min-width: 400px;">@favorite.Notes</td>
                     <td><a class="btn btn-outline-primary btn-group-sm" href="../Home/EditRestaurant?id=@favorite.Id">Update</a></td>
-                    <td><a class="btn" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a></td>
+                    <td><a class="btn btn-outline-danger btn-group-sm" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a></td>
                 </tr>
             }
 
