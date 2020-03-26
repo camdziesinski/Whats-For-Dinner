@@ -4,10 +4,10 @@
         <h1>@Model.Name</h1>
         <h4>@Model.ZipCode</h4>
         <br />
-        <input type="range" name="userRating" class="custom-range" id="ageInputId" min="0" max="5" step="1" style="max-width: 300px; min-width: 300px;" oninput="ageOutputId.value = ageInputId.value">
+        <input type="range" name="userRating" class="custom-range" id="ageInputId" min="0" max="5" step="1" style="width: 300px; max-width: 100%;" oninput="ageOutputId.value = ageInputId.value">
         <h6>Your rating: <output name="ageOutputName" id="ageOutputId">3</output></h6>
         <p>*Anything less than 3 will be removed from favorites*</p>
-        <textarea rows="4" cols="40" name="notes" maxlength="350">@Model.Notes</textarea>
+        <textarea rows="4" cols="40" name="notes" maxlength="350" style="max-width: 100%;">@Model.Notes</textarea>
         <br />
         <input type="hidden" name="id" value="@Model.Id" />
         <input type="submit" name="submit" value="SUBMIT" class="btn btn-outline-success btn-group-sm" />

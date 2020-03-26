@@ -44,12 +44,16 @@ else
         <tbody role="rowgroup">
             @foreach (var favorite in Model)
             {
-                <tr role="row">
-                    <td role="cell">@favorite.Name</td>
-                    <td role="cell">@favorite.ZipCode</td>
-                    <td role="cell">@favorite.UserRating</td>
-                    <td role="cell">@favorite.Notes</td>
-                </tr>
+            <tr role="row">
+                <td role="cell">@favorite.Name</td>
+                <td role="cell">@favorite.ZipCode</td>
+                <td role="cell">@favorite.UserRating</td>
+                <td role="cell">@favorite.Notes</td>
+                <td>
+                    <a class="btn btn-outline-primary btn-group-sm" href="../Home/EditRestaurant?id=@favorite.Id">Update</a>
+                    <a class="btn btn-outline-danger btn-group-sm" href="../Home/RemoveRestaurant?id=@favorite.Id">🗑️</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
