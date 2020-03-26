@@ -1,15 +1,15 @@
 ﻿
 @{
-    ViewData["Title"] = "NewGroup";
+    ViewData["Title"] = "New Group";
 }
 
-<h1>Create A Group</h1>
+<h1>Group Creation</h1>
 
 <form action="../Group/CreateGroup" method="post">
-    Group Name: <input type="text" name="Name" placeholder="Group Name" />
-    Family<input type="radio" name="Type" value="Family" />
-    Friends<input type="radio" name="Type" value="Friends" />
-    Co-Workers<input type="radio" name="Type" value="Co-Workers" />
-    Team<input type="radio" name="Type" value="Team" />
-    <input type="submit" value="Create" />
+    <input class="bg-light input-group-text input-group-prepend" pattern="[A-z,0-9]{3}" type="text" name="Name" placeholder="Group Name" />
+    <input type="radio" name="Type" value="Family" />Family &emsp;
+    <input type="radio" name="Type" value="Friends" />Friends<br />
+    &nbsp; <input type="radio" name="Type" value="Co-Workers" />Co-Workers &ensp;
+    <input type="radio" name="Type" value="Team" />Team<br />
+    <input class="btn btn-success" type="submit" value="Create" />
 </form>
