@@ -5,18 +5,20 @@
 @model List<Restaurants>
 
 
-<table class="table-bordered">
-    <tr>
-        <th>Restaurants</th>
-        <th>Zip Code</th>
-    </tr>
-    @foreach (var favorite in Model)
-    {
-        <tr>
-            <td><a href="../Home/RestoDetails?id=@favorite.PlaceId">@favorite.Name</a></td>
-            <td>@favorite.ZipCode</td>
-        </tr>
-    }
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Restaurants</th>
+                <th>Zip Code</th>
+            </tr>
+        </thead>
+            @foreach (var favorite in Model)
+            {
+                <tr>
+                    <td><a href="../Home/RestoDetails?id=@favorite.PlaceId">@favorite.Name</a></td>
+                    <td>@favorite.ZipCode</td>
+                </tr>
+            }
 
 
 
@@ -25,4 +27,4 @@
 
 
 
-</table>
+    </table>

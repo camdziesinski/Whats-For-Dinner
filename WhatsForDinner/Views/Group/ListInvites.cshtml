@@ -6,17 +6,20 @@
 {
     <h1>Your Group Invites</h1>
 
-    <table class="table-bordered text-center">
-        <tr>
-            <th>Group</th>
-        </tr>
-        <tr>
-            @foreach (Groups invite in Model)
-            {
-                <td><a class="groupname btn btn-block" href="../Group/GroupMembers?id=@invite.Id">@invite.Name</a></td>
-                <td><a href="../Group/JoinGroup?id=@invite.Id" class="btn btn-outline-dark">Accept</a></td>
-            }
-        </tr>
+    <table class="table text-center" style="width: 300px; max-width: 100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>Group</th>
+                <th></th>
+            </tr>
+        </thead>
+            <tr>
+                @foreach (Groups invite in Model)
+                {
+                    <td><a class="groupname btn btn-block" href="../Group/GroupMembers?id=@invite.Id">@invite.Name</a></td>
+                    <td><a href="../Group/JoinGroup?id=@invite.Id" class="btn btn-outline-dark">Accept</a></td>
+                }
+            </tr>
     </table>
 
     <style>
