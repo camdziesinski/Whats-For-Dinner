@@ -13,7 +13,7 @@
     @foreach (var favorite in Model)
     {
         <tr>
-            <td>@favorite.Name</td>
+            <td><a href="../Home/RestoDetails?id=@favorite.PlaceId">@favorite.Name</a></td>
             <td>@favorite.ZipCode</td>
         </tr>
     }
