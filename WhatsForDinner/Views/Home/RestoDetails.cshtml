@@ -1,0 +1,29 @@
+﻿<meta name="viewport" content="width=device-width, initial-scale=1.0">
+@model YelpResto
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 style="text-align:center">@Model.name</h2>
+<div align="center">
+    <img style="height:300px;" src="@Model.image_url" alt="No Photo" />
+</div>
+<table align="center" style="text-align:center" class="table-borderless bg-transparent">
+    <tr>
+        <th style="font-size:25px; color:forestgreen">@Model.price</th>
+    </tr>
+    <tr>
+        <th style="font-size:20px;">@Model.display_phone</th>
+    </tr>
+    <tr>
+        <td>@Model.location.address1</td>
+        <td>@Model.location.address2</td>
+        <td>@Model.location.address3</td>
+    </tr>
+    <tr>
+        <td>@Model.location.city, @Model.location.state   @Model.location.zip_code</td>
+    </tr>
+    <tr>
+        <td><a class="btn-block btn-primary btn" href="@Model.url">@Model.name</a></td>
+    </tr>
+</table>

@@ -218,6 +218,17 @@ namespace WhatsForDinner.Controllers
             return RedirectToAction("Favorites");
         }
 
+        public async Task<IActionResult> RestoDetails(string id)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.yelp.com/v3/businesses/");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {YelpAPI}");
+            var response = await client.GetAsync(id);
+            var result = await response.Content.ReadAsAsync<YelpResto>();
+
+            return View(result);
+        }
+
         #region PrivacyErrorActions
         public IActionResult Privacy()
         {
